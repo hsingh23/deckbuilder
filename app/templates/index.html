@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+	{% include "flash-message.html" %}
+	<h1>Get Decks</h1>
+	<form action="decks" method="post" name="decks">
+	    {{form.hidden_tag()}}
+	    <p>
+	        Please enter your Keyword (comma seperated):<br>
+	        {{form.keywords(size=80)}}<br>
+	    </p>
+	    <p><input type="submit" value="Load results"></p>
+	</form>
+{% endblock %}
