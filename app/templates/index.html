@@ -1,5 +1,38 @@
 {% extends "base.html" %}
 {% block content %}
-	{% include "flash-message.html" %}
-	
+{% raw %}
+<script type="text/x-handlebars-template" id="deckTemplate">
+	{{#each decks}}
+	<div class="container deck">
+		<h2>
+			<span class="deckTitle">{{this.title}}</span>
+			<span class="termCount">({{this.term_count}})</span>
+		</h2> 
+		{{#each terms}}
+		<div class="container row">
+			<div class="card">
+				<span class="term">{{this.term}}</span>
+				<span class="definition">{{this.definition}}</span>
+			</div>
+		</div>
+		{{/each}}
+	</div>
+	{{/each}}
+</script>
+{% endraw %}
+
+<form role="form" id="getDecks">
+  <div class="form-group">
+    <label for="generalKeyword">General Keyword (comma seperated) [optional]</label>
+    <input class="form-control" id="generalKeyword" placeholder="Ex: Thermodynamics, Physics 213">
+  </div>
+  <div class="form-group">
+    <label for="specificKeyword">Specific Keyword (comma seperated) [required]</label>
+    <input class="form-control" id="specificKeyword" placeholder="Ex: Entropy, Enthalpy, Boltzmann distribution">
+  </div>
+  <button type="submit" class="btn btn-default">Submit</button>
+</form>
+
+<div class="container-fluid" id="decks"> </div>
+
 {% endblock %}

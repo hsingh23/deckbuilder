@@ -1,19 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>Welcome to Deck Builder</title>
-		<meta charset="UTF-8">
-		<meta name=description content="">
-		<meta name=viewport content="width=device-width, initial-scale=1">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<!-- Bootstrap CSS -->
-		<link href="/static/bootstrap.css" media="screen">
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>{% block title %} Deck Builder {% endblock %}</title>
+        <meta name="description" content="{% block description %}Deck Builder allows users to merge quizlet decks effeciently. {% endblock %}">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="static/css/bootstrap.css">
+   		{% assets "scss" %}
+	        <link rel="stylesheet" href="{{ ASSET_URL }}">
+        {% endassets %}
 	</head>
 	<body>
 		{% block content %}{% endblock %}
-		<!-- jQuery -->
-		<script src="/static/jquery-2.1.0.js"></script>
-		<!-- Bootstrap JavaScript -->
-		<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+		{% assets "js_dev" %}
+            <script type="text/javascript" src="{{ ASSET_URL }}"></script>
+        {% endassets %}
+		{% assets "coffee" %}
+            <script type="text/javascript" src="{{ ASSET_URL }}"></script>
+        {% endassets %}
 	</body>
 </html>

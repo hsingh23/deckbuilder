@@ -1,0 +1,31 @@
+@media -sass-debug-info{filename{}line{font-family:\000032}}
+.deckTitle {
+  font-weight: bold;
+}
+
+@media -sass-debug-info{filename{}line{font-family:\000035}}
+.termCount {
+  font-color: #999999;
+  font-weight: 200;
+  font-size: 55%;
+}
+
+@media -sass-debug-info{filename{}line{font-family:\0000311}}
+.deck {
+  border-top: 4px solid red;
+  margin-bottom: 40px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+@media -sass-debug-info{filename{}line{font-family:\0000320}}
+.term {
+  font-weight: 700;
+}
+
+@media -sass-debug-info{filename{}line{font-family:\0000324}}
+.selected {
+  background-color: #00FF7FFF;
+}
