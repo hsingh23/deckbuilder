@@ -1,3 +1,0 @@
-V@media -sass-debug-info{filename{}line{font-family:\u005c000032}}\u000a.deckTitle {\u000a  font-weight: bold;\u000a}\u000a\u000a@media -sass-debug-info{filename{}line{font-family:\u005c000035}}\u000a.termCount {\u000a  font-color: #999999;\u000a  font-weight: 200;\u000a  font-size: 55%;\u000a}\u000a\u000a@media -sass-debug-info{filename{}line{font-family:\u005c0000311}}\u000a.deck {\u000a  border-top: 4px solid red;\u000a  margin-bottom: 40px;\u000a}\u000a\u000a@media -sass-debug-info{filename{}line{font-family:\u005c0000316}}\u000a.term {\u000a  font-weight: 700;\u000a  -webkit-transform: rotate(-90deg);\u000a  -moz-transform: rotate(-90deg);\u000a  -ms-transform: rotate(-90deg);\u000a  -o-transform: rotate(-90deg);\u000a  transform: rotate(-90deg);\u000a}\u000a
-p1
-.

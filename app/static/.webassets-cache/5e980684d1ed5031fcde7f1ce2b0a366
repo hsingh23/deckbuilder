@@ -1,3 +1,0 @@
-V$("decks").submit(function() {\u000a  console.log($("specificKeyword"));\u000a  console.log($("generalKeyword"));\u000a  return false;\u000a});\u000a
-p1
-.
