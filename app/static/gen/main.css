@@ -1,31 +1,37 @@
-@media -sass-debug-info{filename{}line{font-family:\000032}}
+@media -sass-debug-info{filename{}line{font-family:\0000311}}
 .deckTitle {
   font-weight: bold;
 }
 
-@media -sass-debug-info{filename{}line{font-family:\000035}}
+@media -sass-debug-info{filename{}line{font-family:\0000314}}
 .termCount {
   font-color: #999999;
   font-weight: 200;
   font-size: 55%;
 }
 
-@media -sass-debug-info{filename{}line{font-family:\0000311}}
+@media -sass-debug-info{filename{}line{font-family:\0000319}}
 .deck {
   border-top: 4px solid red;
   margin-bottom: 40px;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
+  -o-user-select: none;
   user-select: none;
+  -webkit-transition: none;
+  -moz-transition: none;
+  -ms-transition: none;
+  -o-transition: none;
+  transition: none;
 }
 
-@media -sass-debug-info{filename{}line{font-family:\0000320}}
+@media -sass-debug-info{filename{}line{font-family:\0000325}}
 .term {
   font-weight: 700;
 }
 
-@media -sass-debug-info{filename{}line{font-family:\0000324}}
+@media -sass-debug-info{filename{}line{font-family:\0000328}}
 .selected {
-  background-color: #00FF7FFF;
+  background-color: #999999;
 }
