@@ -1,1 +1,4 @@
 __*
+*.py[oc]
+*.sublime-*
+.webassets-cache/

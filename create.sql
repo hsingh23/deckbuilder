@@ -1,48 +1,46 @@
 START TRANSACTION;
-DROP TABLE IF EXISTS Keyword, Deck, KeywordDeck, Card, CardDeck;
-CREATE TABLE `Keyword` (
-`kid` int NOT NULL PRIMARY KEY AUTO_INCREMENT,
-`text` varchar(4000) NOT NULL
-) ENGINE = MYISAM;
+DROP TABLE IF EXISTS Users, Keywords, QuizletDecks, UsersDecks, KeywordsQuizletDecks, KeywordsUsersDecks;
 
-CREATE TABLE `Deck` (
-`did` int NOT NULL PRIMARY KEY AUTO_INCREMENT,
-`qid` int UNSIGNED NULL UNIQUE,
-`url` varchar(2000) NULL,
-`title` varchar(2000) NULL,
-`qcreated_by` varchar(255) NULL,
-`qterm_count` smallint UNSIGNED NOT NULL,
-`qcreated_date` int NULL,
-`qmodified_date` int NULL,
-`qhas_images` enum('False','True') NULL DEFAULT NULL,
-`qsubject` varchar(3000) NULL,
-`qdescription` varchar(4000) NULL,
-`qlang_term` varchar(255) NULL,
-`qlang_definitions` varchar(255) NULL,
-`qhas_discussion` enum('False','True') NULL DEFAULT NULL
-) ENGINE = MYISAM;
+CREATE TABLE `Users` (
+`user_id` int NOT NULL PRIMARY KEY AUTO_INCREMENT,
+`name` varchar(1024) NOT NULL,
+`prefrences` varchar(1024) NOT NULL
+) ENGINE = Innodb;
 
-CREATE TABLE `KeywordDeck` (
-`kid` int NOT NULL REFERENCES `Keyword` (`kid`),
-`did` int NOT NULL REFERENCES `Card` (`cid`)
-) ENGINE = MYISAM;
+CREATE TABLE `Keywords` (
+`keyword_id` int NOT NULL PRIMARY KEY AUTO_INCREMENT,
+`keyword` varchar(1024) NOT NULL,
+`created` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE = Innodb;
 
-CREATE TABLE `Card` (
-`cid` int NOT NULL PRIMARY KEY AUTO_INCREMENT,
-`front` varchar(8000) NULL,
-`back` varchar(8000) NULL,
-`position` smallint NULL
-) ENGINE = MYISAM;
+CREATE TABLE `QuizletDecks` (
+`quizlet_id` int UNSIGNED NULL,
+`json` TEXT NULL
+) ENGINE = Innodb;
 
-CREATE TABLE `CardDeck` (
-`cid` int NOT NULL REFERENCES `Card` (`cid`),
-`did` int NOT NULL REFERENCES `Deck` (`cid`)
-) ENGINE = MYISAM;
+CREATE TABLE `UserDecks` (
+`deck_id` int NOT NULL PRIMARY KEY AUTO_INCREMENT,
+`user_id` int NOT NULL REFERENCES `Users` (`user_id`),
+`created_on` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+`json` TEXT NULL,
+`latitude` float(10,6) NULL,
+`longitude` float(10,6) NULL
+) ENGINE = Innodb;
 
-CREATE VIEW FullTable AS SELECT * FROM Keyword NATURAL JOIN KeywordDeck NATURAL JOIN Deck NATURAL JOIN CardDeck NATURAL JOIN Card;
-CREATE TRIGGER fill_join_table BEFORE INSERT ON FullTable
-FOR EACH ROW 
-BEGIN
-   
-END
+-- Join Tables (Many to Many)
+CREATE TABLE `KeywordsQuizletDecks` (
+`keyword_id` int NOT NULL REFERENCES `Keywords` (`keyword_id`),
+`quizlet_id` int NOT NULL REFERENCES `QuizletDecks` (`quizlet_id`)
+) ENGINE = Innodb;
+
+CREATE TABLE `KeywordsUsersDecks` (
+`keyword_id` int NOT NULL REFERENCES `Keywords` (`keyword_id`),
+`deck_id` int NOT NULL REFERENCES `UserDecks` (`deck_id`)
+) ENGINE = Innodb;
 COMMIT;
+-- Users(user_id, name, prefrences)
+-- Keywords(keyword_id, keyword, created)
+-- QuizletDecks(quizlet_id, user_id, json)
+-- UserDecks(deck_id, user_id, created_on, json, longitude, latitude)
+-- KeywordsQuizletDecks(keyword_id, quizlet_id)
+-- KeywordsUsersDecks(keyword_id, deck_id)
