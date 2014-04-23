@@ -1,4 +1,4 @@
-def get_cursor():
+def get_connection():
     from app import app
     c = app.config
     if "connection" in c:
