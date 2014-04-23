@@ -1,26 +1,30 @@
+@mixin vendorize($property, $value) {
+	-webkit-#{$property}: $value;
+	-moz-#{$property}: $value;
+	-ms-#{$property}: $value;
+	-o-#{$property}: $value;
+	#{$property}: $value;
+}
+
 $light-grey: #999;
-.deckTitle {
-	font-weight: bold;
-}
-.termCount {
-	font-color: $light-grey;
-	font-weight: 200;
-	font-size: 55%;
-}
 
-.deck {
-	border-top: 4px solid red;
-	margin-bottom: 40px;
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
+.deckTitle{
+	font-weight:bold;
 }
-
-.term {
-	font-weight: 700;
+.termCount{
+	font-color:$light-grey;
+	font-weight:200;
+	font-size:55%;
 }
-
+.deck{
+	border-top:4px solid red;
+	margin-bottom:40px;
+	@include vendorize(user-select, none);
+	@include vendorize(transition, none);
+}
+.term{
+	font-weight:700;
+}
 .selected{
-	background-color: #00FF7FFF;
+	background-color:$light-grey;
 }
