@@ -1,23 +1,30 @@
 from app import app
 from flask import request, session, g, redirect, url_for, abort, \
-    render_template, flash
-from forms import KeywordForm
+    render_template, flash, Response
 from json import dumps as object_to_json, loads as json_to_object
-from quizlet import get_decks
+from quizlet import get_decks, parse_keywords
+from util import combinations
 
 
 @app.route('/')
 @app.route('/index')
 def index():
-    form = KeywordForm()
-    if form.validate_on_submit():
-        flash('Fetching your decks for ' + form.keywords.data)
-    return render_template("index.html", form=form)
+    return render_template("index.html")
 
 
-@app.route('/decks', methods=['GET', 'POST'])
-def decks():
-    form = KeywordForm(request.form)
-    if form.validate():
-        return get_decks(form.data["keywords"])
-    return "Invalid form!"
+@app.route('/decks/<keywords>')
+def decks(keywords):
+    ret = get_decks(keywords)
+    return Response(response=ret,
+                    status=200,
+                    mimetype="application/json")
+
+@app.route('/combinations', methods=["GET", "POST"])
+def keyword_combinations():
+    keywords = parse_keywords(request.args["k"])
+    combos = [list(combinations(keywords, i))
+              for i in xrange(len(keywords), 1, -1)]
+    ret = object_to_json([item for sublist in combos for item in sublist])
+    return Response(response=ret,
+                    status=200,
+                    mimetype="application/json")

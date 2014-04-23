@@ -1,0 +1,30 @@
+@mixin vendorize($property, $value) {
+	-webkit-#{$property}: $value;
+	-moz-#{$property}: $value;
+	-ms-#{$property}: $value;
+	-o-#{$property}: $value;
+	#{$property}: $value;
+}
+
+$light-grey: #999;
+
+.deckTitle{
+	font-weight:bold;
+}
+.termCount{
+	font-color:$light-grey;
+	font-weight:200;
+	font-size:55%;
+}
+.deck{
+	border-top:4px solid red;
+	margin-bottom:40px;
+	@include vendorize(user-select, none);
+	@include vendorize(transition, none);
+}
+.term{
+	font-weight:700;
+}
+.selected{
+	background-color:$light-grey;
+}
