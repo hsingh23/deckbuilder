@@ -1,6 +1,6 @@
 import requests as r
 # from config import *
-from db import get_cursor
+from db import get_connection
 from app import app
 QAPI_URL = "https://api.quizlet.com/2.0"
 from json import dumps as object_to_json, loads as json_to_object
@@ -12,7 +12,7 @@ def to_json(obj):
 
 
 def get_keyword_from_database(keyword):
-    c = get_cursor()
+    c = get_connection()
     c.execute("""
         SELECT json
         FROM Keywords NATURAL JOIN Decks
@@ -36,7 +36,7 @@ def get_keyword_from_quizlet(keyword):
         return (r.get(quizlet_sets_url).text)
 
     def save_to_db(sets_terms, set_ids, keyword):
-        c = get_cursor()
+        c = get_connection()
 
     search_quizlet = QAPI_URL + "/search/sets?client_id=%s&q=" % QUIZLET_CLIENT_KEY
     # with_images = json_to_object(r.get(search_quizlet+keyword+"&images_only=true&sort=most_studied").text)
