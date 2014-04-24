@@ -1,0 +1,3 @@
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f # Don't interfere with static files
+RewriteRule ^(.*)$ /home/deckbuilder/public_html/deckbuilder.cgi/$1 [L]
