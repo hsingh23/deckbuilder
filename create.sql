@@ -38,6 +38,7 @@ CREATE TABLE `KeywordsUsersDecks` (
 `deck_id` int NOT NULL REFERENCES `UserDecks` (`deck_id`)
 ) ENGINE = Innodb;
 COMMIT;
+
 -- Users(user_id, name, prefrences)
 -- Keywords(keyword_id, keyword, created)
 -- QuizletDecks(quizlet_id, user_id, json)
