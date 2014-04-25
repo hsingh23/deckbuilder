@@ -1,4 +1,5 @@
 __config.py
+*.swp
 venv/
 *.py[oc]
 *.sublime-*
