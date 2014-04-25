@@ -12,10 +12,10 @@ def to_json(obj):
 
 
 def get_keyword_from_database(keyword):
-    c = get_connection()
+    c = get_connection().cursor()
     c.execute("""
         SELECT json
-        FROM Keywords NATURAL JOIN Decks
+        FROM Keywords NATURAL JOIN KeywordsQuizletDecks NATURAL JOIN QuizletDecks
         WHERE keyword = %s
     """, (keyword,))
     res = c.fetchall()
@@ -33,26 +33,25 @@ def get_keyword_from_quizlet(keyword):
         ids = ",".join(map(str, set_ids))
         quizlet_sets_url = "%s/sets?client_id=%s&set_ids=%s" % (
             QAPI_URL, QUIZLET_CLIENT_KEY, ids)
-        return (r.get(quizlet_sets_url).text)
+        all_sets_json = (r.get(quizlet_sets_url).text)
+        return all_sets_json
 
-    def save_to_db(sets_terms, set_ids, keyword):
-        c = get_connection()
+    def format_all_sets(all_sets_json):
+        return [(x["id"], object_to_json(x)) for x in json_to_object(sets_term)]
 
-    search_quizlet = QAPI_URL + "/search/sets?client_id=%s&q=" % QUIZLET_CLIENT_KEY
-    # with_images = json_to_object(r.get(search_quizlet+keyword+"&images_only=true&sort=most_studied").text)
+    search_quizlet = QAPI_URL + \
+        "/search/sets?client_id=%s&q=" % QUIZLET_CLIENT_KEY
     sets_info = json_to_object(
-        r.get(search_quizlet + keyword + "&sort=most_studied&per_page=50&page=1").text)
+        r.get(search_quizlet + keyword + "&per_page=50&page=1").text)
     set_ids = parse_search(sets_info)
-    sets_term = get_sets(set_ids)
-    results = save_to_db(sets_term, set_ids, keyword)
-    return sets_term
-    # return get_keyword_from_database(keyword)
+    all_sets_json = get_sets(set_ids)
+    return format_all_sets(all_sets_json)
 
 
 def parse_keywords(keyword_string):
     if isinstance(keyword_string, unicode):
         keyword_string = keyword_string.encode('UTF-8')
-    return map(str.strip, keyword_string.split(","))
+    return map(lambda x: x.lower().strip(), keyword_string.split(","))
 
 
 def get_decks(keyword_string):
