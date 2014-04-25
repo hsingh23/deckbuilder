@@ -3,8 +3,7 @@ import sys
 import logging
 logging.basicConfig(stream=sys.stderr)
 sys.path.insert(0,"/var/www/deckbuilder/")
-import server
-
+from app import app as application
 # #!/home/deckbuilder/deckbuilder/bin/python
 
 # activate_this = '/home/deckbuilder/deckbuilder/bin/activate_this.py'
