@@ -1,8 +1,8 @@
 from app import app
 from flask import request, session, g, redirect, url_for, abort, \
     render_template, flash, Response
-from json import dumps as object_to_json, loads as json_to_object
-from quizlet_backup import get_decks, parse_keywords
+from simplejson import dumps as object_to_json, loads as json_to_object
+from quizlet import get_decks, parse_keywords
 from util import combinations
 
 

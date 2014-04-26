@@ -1,12 +1,13 @@
 import requests as r
 # from config import *
 from datetime import datetime, timedelta
-from db import get_connection, get_cursor
+from db import get_cursor, get_dict_cursor
 from app import app
 QAPI_URL = "https://api.quizlet.com/2.0"
 from simplejson import dumps as object_to_json, loads as json_to_object
 QUIZLET_CLIENT_KEY = app.config["QUIZLET_CLIENT_KEY"]
 cursor = get_cursor()
+dict_cursor = get_dict_cursor()
 
 
 def get_decks(keyword_string):
@@ -45,13 +46,12 @@ def get_or_create_keyword(keyword):
 
 
 def get_decks_from_database(keyword):
-    cursor.execute("""
+    dict_cursor.execute("""
         SELECT keyword_id, keyword, json, terms_selected/GREATEST(times_deck_selected,1) as avg_selected
         FROM Keywords NATURAL JOIN KeywordsQuizletDecks NATURAL JOIN QuizletDecks
         WHERE keyword = %s
     """, (keyword,))
-    res = cursor.fetchall()
-    return res
+    return dict_cursor.fetchall()
 
 
 def parse_keywords(keyword_string):
