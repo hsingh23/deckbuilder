@@ -82,22 +82,3 @@ def get_decks_from_quizlet(keyword):
     sets_term = get_sets(set_ids)
     results = save_to_db(sets_term, set_ids, keyword)
     return sets_term
-
-
-
-
-
-
-
-
-def queryQuizletDecks(input):
-  keyword_id=get_keyword_id(input)
-  fetchdate=get_fetch_date(keyword_id)
-  qidList=listOfQids(keyword_id)
-  if((!qidList) || fetchdate<datetime.timedelta(weeks=1)):
-    decksSet=get_decks_from_quizlet(input)
-    add_to_database(decksSet)
-    print("Done adding values")
-  else:
-    print("Pulling exisiting values...")
-  return listOfJSONS
