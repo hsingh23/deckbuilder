@@ -1,4 +1,6 @@
-__*
+__config.py
+*.swp
+venv/
 *.py[oc]
 *.sublime-*
 .webassets-cache/
