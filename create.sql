@@ -41,7 +41,7 @@ COMMIT;
 
 -- Users(user_id, name, prefrences)
 -- Keywords(keyword_id, keyword, created)
--- QuizletDecks(quizlet_id, user_id, json)
+-- QuizletDecks(quizlet_id, json)
 -- UserDecks(deck_id, user_id, created_on, json, longitude, latitude)
 -- KeywordsQuizletDecks(keyword_id, quizlet_id)
 -- KeywordsUsersDecks(keyword_id, deck_id)
