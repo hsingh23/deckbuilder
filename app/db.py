@@ -9,3 +9,6 @@ def get_connection():
                                      "DATABASE_USER"], passwd=c["DATABASE_PASSWORD"], db=c["DATABASE_DATABASE"])
         app.config["connection"] = connection
         return connection
+
+def get_cursor():
+	return get_connection().cursor()
