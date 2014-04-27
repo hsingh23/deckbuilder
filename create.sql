@@ -10,12 +10,12 @@ CREATE TABLE `Users` (
 `preference` Text NOT NULL
 ) ENGINE = Innodb;
 CREATE TABLE `Keywords` (
-`keyword_id` int NOT NULL PRIMARY KEY AUTO_INCREMENT,
+`keyword_id` int UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
 `keyword` varchar(1024) NOT NULL,
 `last_updated` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ENGINE = Innodb;
 CREATE TABLE `QuizletDecks` (
-`quizlet_id` int UNSIGNED NULL,
+`quizlet_id` int UNSIGNED NOT NULL PRIMARY KEY,
 `json` TEXT NULL
 ) ENGINE = Innodb;
 CREATE TABLE `UserDecks` (
@@ -37,6 +37,7 @@ CREATE TABLE `KeywordsUserDecks` (
 `keyword_id` int NOT NULL REFERENCES `Keywords` (`keyword_id`),
 `deck_id` int NOT NULL REFERENCES `UserDecks` (`deck_id`)
 ) ENGINE = Innodb;
+-- Procedures
 DELIMITER //
 CREATE PROCEDURE create_or_update_quizlet
 (IN new_quizlet_id INT UNSIGNED, new_keyword_id INT UNSIGNED, new_json MEDIUMTEXT)

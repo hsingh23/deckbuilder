@@ -13,10 +13,7 @@
 	</head>
 	<body>
 		{% block content %}{% endblock %}
-		{% assets "js_dev" %}
-            <script type="text/javascript" src="{{ ASSET_URL }}"></script>
-        {% endassets %}
-		{% assets "coffee" %}
+		{% assets "all_dev_js" %}
             <script type="text/javascript" src="{{ ASSET_URL }}"></script>
         {% endassets %}
 	</body>

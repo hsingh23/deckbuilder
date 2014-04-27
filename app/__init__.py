@@ -17,7 +17,8 @@ all_dev_js = Bundle(
     ),
     Bundle(
         "coffee/all.coffee",
-        filters="coffeescript"
+        filters="coffeescript",
+        output="gen/coffee.js"
     ),
     output='gen/dev.js'
 )
@@ -32,7 +33,8 @@ all_js = Bundle(
     ),
     Bundle(
         "coffee/all.coffee",
-        filters="coffeescript"
+        filters="coffeescript",
+        output="gen/coffee.js"
     ),
     filters='jsmin',
     output="gen/packed.js"

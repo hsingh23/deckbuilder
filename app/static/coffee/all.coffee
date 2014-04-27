@@ -10,6 +10,8 @@ $.q =
 q = $.q
 
 class Quizlet
+	baseUrl: "https://api.quizlet.com/2.0"
+	key: "client_id=2xvUtAyRyn"
 	decks: {}
 	decks_by_id: lunr () ->
 		@field "terms", 300
