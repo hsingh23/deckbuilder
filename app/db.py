@@ -19,15 +19,20 @@ def get_cursor():
     return get_connection().cursor()
 
 
-def get_dict_connection():
-    if "dict_connection" in c:
-        return c["dict_connection"]
-    else:
+def make_dicts(cursor, rows):
+    return [dict((cursor.description[idx][0], value) for idx, value in enumerate(row)) for row in rows]
 
-        connection = MySQLdb.connect(host=c["DATABASE_HOST"], user=c[
-                                     "DATABASE_USER"], passwd=c["DATABASE_PASSWORD"], db=c["DATABASE_DATABASE"], cursorclass=DictCursor)
-        app.config["dict_connection"] = connection
-        return connection
+def query_one(query, args):
+    cursor = get_cursor()
+    cursor.execute(query, args)
+    result = cursor.fetchone()
+    cursor.close()
+    return result
 
-def get_dict_cursor():
-	return get_dict_connection().cursor()
+def query_all(query, args):
+    cursor = get_cursor()
+    cursor.execute(query, args)
+    result = cursor.fetchall()
+    cursor.close()
+    return result
+

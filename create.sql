@@ -1,8 +1,7 @@
 START TRANSACTION;
 SET GLOBAL general_log='OFF';
 DROP TABLE IF EXISTS Users, Keywords, QuizletDecks, UserDecks, KeywordsQuizletDecks, KeywordsUserDecks;
-DROP PROCEDURE create_or_update_quizlet;
-
+DROP PROCEDURE IF EXISTS create_or_update_quizlet;
 CREATE TABLE `Users` (
 `google_id` int NOT NULL PRIMARY KEY,
 `name` varchar(1024) NOT NULL,
@@ -10,27 +9,23 @@ CREATE TABLE `Users` (
 `email` varchar(2083) NOT NULL,
 `preference` Text NOT NULL
 ) ENGINE = Innodb;
-
 CREATE TABLE `Keywords` (
 `keyword_id` int NOT NULL PRIMARY KEY AUTO_INCREMENT,
 `keyword` varchar(1024) NOT NULL,
 `last_updated` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ENGINE = Innodb;
-
 CREATE TABLE `QuizletDecks` (
 `quizlet_id` int UNSIGNED NULL,
-`json` TEXT NULL,
+`json` TEXT NULL
 ) ENGINE = Innodb;
-
 CREATE TABLE `UserDecks` (
 `deck_id` int NOT NULL PRIMARY KEY AUTO_INCREMENT,
 `user_id` int NOT NULL REFERENCES `Users` (`user_id`),
 `created_on` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-`json` TEXT NULL,
+`json` MEDIUMTEXT NULL,
 `latitude` float(10,6) NULL,
 `longitude` float(10,6) NULL
 ) ENGINE = Innodb;
-
 -- Join Tables (Many to Many)
 CREATE TABLE `KeywordsQuizletDecks` (
 `keyword_id` int NOT NULL REFERENCES `Keywords` (`keyword_id`),
@@ -38,15 +33,13 @@ CREATE TABLE `KeywordsQuizletDecks` (
 `terms_selected` INT UNSIGNED  DEFAULT 0,
 `times_deck_selected` INT UNSIGNED DEFAULT 0
 ) ENGINE = Innodb;
-
 CREATE TABLE `KeywordsUserDecks` (
 `keyword_id` int NOT NULL REFERENCES `Keywords` (`keyword_id`),
 `deck_id` int NOT NULL REFERENCES `UserDecks` (`deck_id`)
 ) ENGINE = Innodb;
-
 DELIMITER //
 CREATE PROCEDURE create_or_update_quizlet
-(IN new_quizlet_id INT UNSIGNED, new_keyword_id INT UNSIGNED, new_json TEXT)
+(IN new_quizlet_id INT UNSIGNED, new_keyword_id INT UNSIGNED, new_json MEDIUMTEXT)
 MODIFIES SQL DATA
 BEGIN
 IF NOT EXISTS (SELECT quizlet_id FROM QuizletDecks WHERE quizlet_id = new_quizlet_id) 
@@ -59,8 +52,6 @@ END IF;
 END;//
 DELIMITER ;
 COMMIT;
-
-
 -- Users(google_id, name, picture_url, email, preference)
 -- Keywords(keyword_id, keyword, created)
 -- QuizletDecks(quizlet_id, json, terms_selected, times_deck_selected)
