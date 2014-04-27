@@ -4,9 +4,11 @@ DROP TABLE IF EXISTS Users, Keywords, QuizletDecks, UserDecks, KeywordsQuizletDe
 DROP PROCEDURE create_or_update_quizlet;
 
 CREATE TABLE `Users` (
-`user_id` int NOT NULL PRIMARY KEY AUTO_INCREMENT,
+`google_id` int NOT NULL PRIMARY KEY,
 `name` varchar(1024) NOT NULL,
-`prefrences` varchar(1024) NOT NULL
+`picture_url` varchar(2083) NOT NULL,
+`email` varchar(2083) NOT NULL,
+`preference` Text NOT NULL
 ) ENGINE = Innodb;
 
 CREATE TABLE `Keywords` (
@@ -59,7 +61,7 @@ DELIMITER ;
 COMMIT;
 
 
--- Users(user_id, name, prefrences)
+-- Users(google_id, name, picture_url, email, preference)
 -- Keywords(keyword_id, keyword, created)
 -- QuizletDecks(quizlet_id, json, terms_selected, times_deck_selected)
 -- UserDecks(deck_id, user_id, created_on, json, longitude, latitude)
