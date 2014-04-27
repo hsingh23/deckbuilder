@@ -4,8 +4,9 @@ from datetime import datetime, timedelta
 from db import get_cursor, make_dicts, query_one, query_all
 from app import app
 QAPI_URL = "https://api.quizlet.com/2.0"
-from simplejson import dumps as to_json, loads as to_object
+from simplejson import dumps as to_json, loads as to_object, JSONDecodeError
 QUIZLET_CLIENT_KEY = app.config["QUIZLET_CLIENT_KEY"]
+
 
 
 def keyword_has_decks(keyword_id):
@@ -60,7 +61,10 @@ def get_decks_from_database(keyword):
     decks = make_dicts(cursor, cursor.fetchall())
     cursor.close()
     for deck in decks:
-        deck["json"] = to_object(deck["json"])
+        try:
+            deck["json"] = to_object(deck["json"])
+        except JSONDecodeError:
+            pass
     return decks
 
 
@@ -88,6 +92,7 @@ def create_decks_from_quizlet(keyword, keyword_id):
         formated_json = [(x["id"], to_json(x))
                          for x in to_object(all_sets_json)]
         cursor = get_cursor()
+
         for quizlet_id, json in formated_json:
             cursor.callproc(
                 "create_or_update_quizlet", (quizlet_id, keyword_id, json))
@@ -100,3 +105,4 @@ def create_decks_from_quizlet(keyword, keyword_id):
     set_ids = parse_search(sets_info)
     all_sets_json = get_sets(set_ids)
     save_to_db(all_sets_json, keyword_id)
+    return all_sets_json
