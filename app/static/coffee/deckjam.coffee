@@ -1,9 +1,3 @@
-String::strip = -> if String::trim? then @trim() else @replace /^\s+|\s+$/g, ""
-String::lstrip = -> @replace /^\s+/g, ""
-String::rstrip = -> @replace /\s+$/g, ""
-Array::toDict = (key) ->
-  @reduce ((dict, obj) -> dict[ obj[key] ] = obj if obj[key]?; return dict), {}
-
 $.q = 
 	$decks: $("#decks")
 	$filter: $("#filter")
@@ -23,38 +17,34 @@ class Quizlet
 	collectedIds: []
 	constructor: () ->
 		@template = Handlebars.compile($("#deckTemplate").html())
-		@show_only = (ids) ->
-			for deck in $(".deck")
-				debugger
-			#for deck in @hidden_decks:
-		@populate = (decks) ->
-			deckContext =
-				decks: decks
-			q.$decks.append @template deckContext
-		@searchSetsUrl = "#{@baseUrl}/search/sets?#{@key}"
-		@setsUrl= "#{@baseUrl}/sets?#{@key}"
-		@getCardsFromSets = (ids, success) =>
-			$.getJSON "#{@setsUrl}&set_ids=#{ids.join()}&callback=?", (data) =>
-				for deck in data
-					@decks[deck.id] = data
-					@add_to_lunr(deck)
-				@populate(data)
 
-		@getSets = (term) ->
-			$.getJSON "/decks/#{term}", (data) =>
-				ids = (deck.id for deck in data.sets)
-				uids = _.difference(ids, @collectedIds)
-				@collectedIds = _.union @collectedIds, ids
-				@decks[term] = 
-					term: term
-					result: data
-					ids: ids
-				@getCardsFromSets uids
+		@show_only = (ids) ->
+			debugger
+			for deck in $(".deck")
+				x = $(deck)
+				if deck.attributes["data-qid"] not in ids
+					$(deck).hide()
+				else
+					$(deck).show()
+
+
+		@getDecks = (term) ->
+			if term
+				$.getJSON "/decks/#{term}", (data) =>
+					x = clone data
+					@populate x
+					for deck in data
+						@add_to_lunr deck.json
 				
+		@populate = (data) ->
+			deckContext =
+				decks: data
+			q.$decks.append @template deckContext
+
 		@add_to_lunr = (deck) ->
 			formated_deck = 
 				terms: (term for term in deck.terms).join(' ')
-				definitions: (term for term in deck.terms).join(' ')
+				definitions: (definitions for definitions in deck.terms).join(' ')
 				title: deck.title
 				description: deck.description
 				id: deck.id
@@ -63,7 +53,7 @@ class Quizlet
 		$("#getDecks").submit (e) => 
 			@terms = (x.trim() for x in $("#specificKeyword").val().split(","))
 			for x in @terms
-				@getSets x 
+				@getDecks x 
 			e.preventDefault()
 
 			
@@ -98,12 +88,32 @@ class Quizlet
 			e.preventDefault()
 			q.$decks.empty()
 
+		q.$decks.on "click", ".removeDeck", (e) ->
+			e.currentTarget.parentElement.remove()
+
+		$("#export").click (e)->
+			terms = (term.textContent for term in $(".card.selected .term"))
+			definitions = (definition.textContent for definition in $(".card.selected .definition"))
+			cards = JSON.stringify zip(terms, definitions)
+			console.log terms, definitions, cards
+
 		$("#filterDecks").submit (e)=>
 			e.preventDefault()
 			filter_terms = q.$filter.val()
-			x = @decks_by_id.search(filter_terms)
-			decks_with_filter_terms = x.toDict("ref")
-			@show_only(decks_with_filter_terms)
+			if filter_terms
+				x = @decks_by_id.search(filter_terms)
+				decks_with_filter_terms = x.toDict("ref")
+				for deck in $(".deck")
+					d = $(deck)
+
+					if deck.dataset["qid"] of decks_with_filter_terms
+						d.show()
+					else
+						d.hide()
+			else
+				for deck in $(".deck")
+					$(deck).show()
+
 
 q.quizlet = new Quizlet
 

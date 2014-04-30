@@ -2,24 +2,34 @@
 {% block content %}
 <script src="http://yui.yahooapis.com/3.16.0/build/yui/yui-min.js"></script>
 {% raw %}
-<div nq-app>
-	
-</div>
 <script type="text/x-handlebars-template" id="deckTemplate">
 	{{#each decks}}
-	<div class="container deck" data-qid="{{this.id}}">
-		<button type="btn btn-default" id="removeDeck" data-qid="{{this.id}}">Remove</button>
+	<div class="container deck" data-qid="{{this.json.id}}">
+		<button type="btn btn-default" class="removeDeck">Remove</button>
 		<h2>
-			<span class="deckTitle">{{this.title}}</span>
-			<span class="termCount">({{this.term_count}})</span>
+			<span class="deckTitle">{{this.json.title}}</span>
+			<span class="termCount">({{this.json.term_count}})</span>
 		</h2> 
-		{{#each terms}}
+		{{#each json.terms}}
 		<div class="container row card">
 				<span class="term">{{this.term}}</span>
 				<span class="definition">{{this.definition}}</span>
 		</div>
 		{{/each}}
 	</div>
+	{{/each}}
+</script>
+
+<script type="text/x-handlebars-template" id="selectedCards">
+	<button type="btn btn-default" id="append-selected">Append to existing deck</button>
+	<button type="btn btn-default" id="save-deck">Save to my decks</button>
+	<button type="btn btn-default" id="export-quizlet">Export to quizlet</button>
+
+	{{#each term}}
+		<div class="container row card">
+			<span class="term">{{this.term}}</span>
+			<span class="definition">{{this.definition}}</span>
+		</div>
 	{{/each}}
 </script>
 {% endraw %}
@@ -34,6 +44,7 @@
 	  </div>
 	  <button type="submit" class="btn btn-default">Submit</button>
 	  <button type="submit" class="btn btn-default" id="reset">Reset</button>
+	  <button type="submit" class="btn btn-default" id="export">Export</button>
 	</form>
 	<form role="form" id="filterDecks">
     	<label for="filterDecks">Filter Decks  (comma seperated)</label>
