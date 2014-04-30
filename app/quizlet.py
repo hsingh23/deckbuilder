@@ -15,14 +15,11 @@ def keyword_has_decks(keyword_id):
     return res[0] > 1 if res else False
 
 
-def get_decks(keyword_string):
-    res = {}
-    for keyword in parse_keywords(keyword_string):
-        keyword_id, last_updated, created = get_or_create_keyword(keyword)
-        if expired_keyword(last_updated) or created or not keyword_has_decks(keyword_id):
-            create_decks_from_quizlet(keyword, keyword_id)
-        res[keyword] = get_decks_from_database(keyword)
-    return to_json(res, use_decimal=True)
+def get_decks(keyword):
+    keyword_id, last_updated, created = get_or_create_keyword(keyword)
+    if expired_keyword(last_updated) or created or not keyword_has_decks(keyword_id):
+        create_decks_from_quizlet(keyword, keyword_id)
+    return to_json(get_decks_from_database(keyword), use_decimal=True)
 
 
 def expired_keyword(last_updated):
