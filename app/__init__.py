@@ -16,7 +16,8 @@ all_dev_js = Bundle(
         "js/lunr.js",
     ),
     Bundle(
-        "coffee/all.coffee",
+        "coffee/util.coffee",
+        "coffee/deckjam.coffee",
         filters="coffeescript",
         output="gen/coffee.js"
     ),
