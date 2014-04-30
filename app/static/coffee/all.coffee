@@ -23,8 +23,9 @@ class Quizlet
 	collectedIds: []
 	constructor: () ->
 		@template = Handlebars.compile($("#deckTemplate").html())
-		@show_ids = (ids) ->
-			@hidden_decks = $(".deck").detach()
+		@show_only = (ids) ->
+			for deck in $(".deck")
+				debugger
 			#for deck in @hidden_decks:
 		@populate = (decks) ->
 			deckContext =
@@ -39,9 +40,8 @@ class Quizlet
 					@add_to_lunr(deck)
 				@populate(data)
 
-		@getSets = (term, conditions) ->
-			$.getJSON "#{@searchSetsUrl}&q=#{term}&per_page=50&page=1&callback=?"
-			, (data) => 
+		@getSets = (term) ->
+			$.getJSON "/decks/#{term}", (data) =>
 				ids = (deck.id for deck in data.sets)
 				uids = _.difference(ids, @collectedIds)
 				@collectedIds = _.union @collectedIds, ids
@@ -49,7 +49,6 @@ class Quizlet
 					term: term
 					result: data
 					ids: ids
-					conditions: conditions
 				@getCardsFromSets uids
 				
 		@add_to_lunr = (deck) ->
@@ -67,7 +66,6 @@ class Quizlet
 				@getSets x 
 			e.preventDefault()
 
-		q.selectCard = ($this) ->
 			
 		q.mousedown = (e) ->
 			e.preventDefault()
@@ -105,7 +103,7 @@ class Quizlet
 			filter_terms = q.$filter.val()
 			x = @decks_by_id.search(filter_terms)
 			decks_with_filter_terms = x.toDict("ref")
-			@show_ids 
+			@show_only(decks_with_filter_terms)
 
 q.quizlet = new Quizlet
 

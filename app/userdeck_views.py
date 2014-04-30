@@ -3,7 +3,6 @@ from simplejson import dumps as to_json
 from flask import request
 from app import app
 
-
 @app.route('/user/<google_id>', methods=["GET"])
 def get_user_deck(google_id):
     try:
