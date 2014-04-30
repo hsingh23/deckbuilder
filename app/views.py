@@ -1,7 +1,8 @@
 from app import app
+import requests as r
 from flask import request, session, g, redirect, url_for, abort, \
     render_template, flash, Response
-from simplejson import dumps as object_to_json, loads as json_to_object
+from simplejson import dumps as to_json, loads as to_object
 from quizlet import get_decks, parse_keywords
 from util import combinations
 from flask_oauth import OAuth
@@ -43,14 +44,14 @@ def keyword_combinations():
     keywords = parse_keywords(request.args["k"])
     combos = [list(combinations(keywords, i))
               for i in xrange(len(keywords), 1, -1)]
-    ret = object_to_json([item for sublist in combos for item in sublist])
+    ret = to_json([item for sublist in combos for item in sublist])
     return Response(response=ret,
                     status=200,
                     mimetype="application/json")
 
 
-@app.route('/index2')
-def index2():
+@app.route('/login-with-google')
+def login_with_google():
     access_token = session.get('access_token')
     if access_token is None:
         return redirect(url_for('login'))
@@ -84,8 +85,11 @@ def login():
 def authorized(resp):
     access_token = resp['access_token']
     session['access_token'] = access_token, ''
+    url = "https://www.googleapis.com/oauth2/v1/userinfo"
+    headers = {'Authorization': 'OAuth ' + access_token}
+    user_information = to_object(r.get(url, headers=headers).text)
+    from IPython import embed; embed()
     return redirect(url_for('index'))
-
 
 @google.tokengetter
 def get_access_token():
