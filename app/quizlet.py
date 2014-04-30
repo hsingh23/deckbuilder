@@ -19,6 +19,7 @@ def get_decks(keyword_string):
     res = {}
     for keyword in parse_keywords(keyword_string):
         keyword_id, last_updated, created = get_or_create_keyword(keyword)
+        update_times_searched(keyword_id)
         if expired_keyword(last_updated) or created or not keyword_has_decks(keyword_id):
             create_decks_from_quizlet(keyword, keyword_id)
         res[keyword] = get_decks_from_database(keyword)
@@ -28,6 +29,10 @@ def get_decks(keyword_string):
 def expired_keyword(last_updated):
     return last_updated + timedelta(weeks=1) < datetime.now()
 
+
+def update_times_searched(keyword_id):
+    cursor = get_cursor()
+    cursor.execute("UPDATE Keywords SET times_searched=times_searched+1 WHERE keyword_id=%s",(keyword_id,))
 
 def get_or_create_keyword(keyword):
     created = False

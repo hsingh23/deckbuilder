@@ -28,7 +28,7 @@ def save_to_db(all_sets_json, user_id):
   cursor.connection.commit()
   cursor.close()
 
-def update_userdeck(all_sets_json, deck_id):
+def _userdeck(all_sets_json, deck_id):
   cursor = get_cursor()
   cursor.execute(
       "UPDATE UserDecks SET json=%s WHERE deck_id=%s", (json,deck_id))
