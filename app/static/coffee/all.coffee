@@ -14,10 +14,10 @@ class Quizlet
 	key: "client_id=2xvUtAyRyn"
 	decks: {}
 	decks_by_id: lunr () ->
-		@field "terms", 300
-		@field "definitions", 300
-		@field "title", 50
-		@field "description", 50
+		@field "terms"
+		@field "definitions"
+		@field "title"
+		@field "description"
 		@ref "id"
 
 	collectedIds: []
@@ -40,18 +40,18 @@ class Quizlet
 				@populate(data)
 
 		@getSets = (term, conditions) ->
-			$.getJSON "#{@searchSetsUrl}&q=#{term.trim()}&per_page=50&page=1&callback=?"
+			$.getJSON "#{@searchSetsUrl}&q=#{term}&per_page=50&page=1&callback=?"
 			, (data) => 
 				ids = (deck.id for deck in data.sets)
 				uids = _.difference(ids, @collectedIds)
 				@collectedIds = _.union @collectedIds, ids
 				@decks[term] = 
 					term: term
-					# may not need - denormalized for searching
 					result: data
 					ids: ids
 					conditions: conditions
 				@getCardsFromSets uids
+				
 		@add_to_lunr = (deck) ->
 			formated_deck = 
 				terms: (term for term in deck.terms).join(' ')

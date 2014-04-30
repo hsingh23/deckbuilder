@@ -8,7 +8,6 @@ from simplejson import dumps as to_json, loads as to_object, JSONDecodeError
 QUIZLET_CLIENT_KEY = app.config["QUIZLET_CLIENT_KEY"]
 
 
-
 def keyword_has_decks(keyword_id):
     res = query_one(
         "SELECT COUNT(*) FROM KeywordsQuizletDecks where keyword_id = %s", (keyword_id,))
@@ -24,6 +23,12 @@ def get_decks(keyword):
 
 def expired_keyword(last_updated):
     return last_updated + timedelta(weeks=1) < datetime.now()
+
+
+def update_times_searched(keyword_id):
+    cursor = get_cursor()
+    cursor.execute(
+        "UPDATE Keywords SET times_searched=times_searched+1 WHERE keyword_id=%s", (keyword_id,))
 
 
 def get_or_create_keyword(keyword):
@@ -50,7 +55,7 @@ def get_or_create_keyword(keyword):
 
 def get_decks_from_database(keyword):
     cursor = get_cursor()
-    output = cursor.execute("""
+    cursor.execute("""
         SELECT keyword_id, keyword, json, terms_selected/GREATEST(times_deck_selected,1) as avg_selected
         FROM Keywords NATURAL JOIN KeywordsQuizletDecks NATURAL JOIN QuizletDecks
         WHERE keyword = %s

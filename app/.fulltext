@@ -1,0 +1,69 @@
+yo.factory("docsSearch", [
+  "$rootScope"
+  "lunrSearch"
+  "NG_PAGES"
+  ($rootScope, lunrSearch, NG_PAGES) ->
+    return null  if window.RUNNING_IN_NG_TEST_RUNNER
+    index = lunrSearch(->
+      @ref "id"
+      @field "title",
+        boost: 50
+
+      @field "keywords",
+        boost: 20
+
+      return
+    )
+    angular.forEach NG_PAGES, (page, key) ->
+      if page.searchTerms
+        index.store
+          id: key
+          title: page.searchTerms.titleWords
+          keywords: page.searchTerms.keywords
+
+      return
+
+    return (query) ->
+      results =
+        api: []
+        tutorial: []
+        guide: []
+        error: []
+        misc: []
+
+      angular.forEach index.search(query), (result) ->
+        key = result.ref
+        item = NG_PAGES[key]
+        area = item.area
+        item.path = key
+        limit = (if area is "api" then 40 else 14)
+        results[area].push item  if results[area].length < limit
+        return
+
+      results
+]).directive "docsSearchInput", [
+  "$document"
+  ($document) ->
+    return (scope, element, attrs) ->
+      ESCAPE_KEY_KEYCODE = 27
+      FORWARD_SLASH_KEYCODE = 191
+      angular.element($document[0].body).bind "keydown", (event) ->
+        input = element[0]
+        if event.keyCode is FORWARD_SLASH_KEYCODE and document.activeElement isnt input
+          event.stopPropagation()
+          event.preventDefault()
+          input.focus()
+        return
+
+      element.bind "keydown", (event) ->
+        if event.keyCode is ESCAPE_KEY_KEYCODE
+          event.stopPropagation()
+          event.preventDefault()
+          scope.$apply ->
+            scope.hideResults()
+            return
+
+        return
+
+      return
+]
