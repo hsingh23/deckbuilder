@@ -9,15 +9,18 @@ CREATE TABLE `Users` (
 `email` varchar(2083) NOT NULL,
 `preference` Text NOT NULL
 ) ENGINE = Innodb;
+
 CREATE TABLE `Keywords` (
 `keyword_id` int UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
 `keyword` varchar(1024) NOT NULL,
 `last_updated` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ENGINE = Innodb;
+
 CREATE TABLE `QuizletDecks` (
 `quizlet_id` int UNSIGNED NOT NULL PRIMARY KEY,
 `json` TEXT NULL
 ) ENGINE = Innodb;
+
 CREATE TABLE `UserDecks` (
 `deck_id` int NOT NULL PRIMARY KEY AUTO_INCREMENT,
 `google_id` int NOT NULL REFERENCES `Users` (`google_id`),
@@ -26,6 +29,7 @@ CREATE TABLE `UserDecks` (
 `latitude` float(10,6) NULL,
 `longitude` float(10,6) NULL
 ) ENGINE = Innodb;
+
 -- Join Tables (Many to Many)
 CREATE TABLE `KeywordsQuizletDecks` (
 `keyword_id` int NOT NULL REFERENCES `Keywords` (`keyword_id`),
@@ -33,10 +37,12 @@ CREATE TABLE `KeywordsQuizletDecks` (
 `terms_selected` INT UNSIGNED  DEFAULT 0,
 `times_deck_selected` INT UNSIGNED DEFAULT 0
 ) ENGINE = Innodb;
+
 CREATE TABLE `KeywordsUserDecks` (
 `keyword_id` int NOT NULL REFERENCES `Keywords` (`keyword_id`),
 `deck_id` int NOT NULL REFERENCES `UserDecks` (`deck_id`)
 ) ENGINE = Innodb;
+
 -- Procedures
 DELIMITER //
 CREATE PROCEDURE create_or_update_quizlet
