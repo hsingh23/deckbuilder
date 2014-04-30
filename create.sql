@@ -20,7 +20,7 @@ CREATE TABLE `QuizletDecks` (
 ) ENGINE = Innodb;
 CREATE TABLE `UserDecks` (
 `deck_id` int NOT NULL PRIMARY KEY AUTO_INCREMENT,
-`user_id` int NOT NULL REFERENCES `Users` (`user_id`),
+`google_id` int NOT NULL REFERENCES `Users` (`google_id`),
 `created_on` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 `json` MEDIUMTEXT NULL,
 `latitude` float(10,6) NULL,

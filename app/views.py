@@ -4,7 +4,7 @@ from flask import request, session, g, redirect, url_for, abort, \
 from simplejson import dumps as object_to_json, loads as json_to_object
 from quizlet import get_decks, parse_keywords
 from util import combinations
-
+import userdeck_views
 
 @app.route('/')
 @app.route('/index')
@@ -29,3 +29,4 @@ def keyword_combinations():
     return Response(response=ret,
                     status=200,
                     mimetype="application/json")
+
