@@ -13,7 +13,7 @@ MySQL-python==1.2.3
 PAM==0.4.2
 Twisted-Core==13.2.0
 WTForms==1.0.5
-Werkzeug==0.9.4
+Werkzeug==0.12
 apt-xapian-index==0.45
 argparse==1.2.1
 blinker==1.3
