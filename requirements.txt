@@ -22,7 +22,7 @@ colorama==0.2.5
 configobj==4.7.2
 google-api-python-client==1.2
 html5lib==0.999
-httplib2==0.9
+httplib2==0.18.0
 ipdb==0.8
 ipython==2.0.0
 itsdangerous==0.24
