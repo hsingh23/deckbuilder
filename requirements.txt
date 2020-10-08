@@ -28,7 +28,7 @@ ipython==2.0.0
 itsdangerous==0.24
 oauth2==1.5.211
 oauth2client==1.2
-passlib==1.6.2
+passlib==1.7.3
 pyOpenSSL==0.13
 pyserial==2.6
 python-apt==0.9.3.5
