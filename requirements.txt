@@ -36,7 +36,7 @@ python-debian==0.1.21-nmu2ubuntu2
 requests==2.2.1
 six==1.5.2
 ssh-import-id==3.21
-urllib3==1.7.1
+urllib3==1.26.5
 virtualenv==1.11.4
 webassets==0.9
 wsgiref==0.1.2
