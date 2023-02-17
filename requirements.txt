@@ -12,7 +12,7 @@ MarkupSafe==0.21
 MySQL-python==1.2.3
 PAM==0.4.2
 Twisted-Core==13.2.0
-WTForms==1.0.5
+WTForms==2.3.0
 Werkzeug==0.9.4
 apt-xapian-index==0.45
 argparse==1.2.1
@@ -24,7 +24,7 @@ google-api-python-client==1.2
 html5lib==0.999
 httplib2==0.9
 ipdb==0.8
-ipython==2.0.0
+ipython==8.10.0
 itsdangerous==0.24
 oauth2==1.5.211
 oauth2client==1.2
@@ -41,3 +41,4 @@ virtualenv==1.11.4
 webassets==0.9
 wsgiref==0.1.2
 zope.interface==4.0.5
+setuptools>=65.5.1 # not directly required, pinned by Snyk to avoid a vulnerability
