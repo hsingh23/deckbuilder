@@ -41,3 +41,4 @@ virtualenv==1.11.4
 webassets==0.9
 wsgiref==0.1.2
 zope.interface==4.0.5
+setuptools>=70.0.0 # not directly required, pinned by Snyk to avoid a vulnerability
